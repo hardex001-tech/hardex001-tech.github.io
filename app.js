@@ -378,17 +378,39 @@ function initTerminal() {
 }
 
 /* ==========================================================================
-   Email Copy Utility
+   Email Copy & Anti-Scraping Protection Utility
    ========================================================================== */
 
+function getObfuscatedEmail() {
+  // Encoded in base64: hardexmarley340@gmail.com
+  const part1 = "aGFyZGV4bWFybGV5";
+  const part2 = "MzQwQGdtYWlsLmNvbQ==";
+  try {
+    return atob(part1 + part2);
+  } catch (e) {
+    return "";
+  }
+}
+
+function revealContactEmail() {
+  const email = getObfuscatedEmail();
+  const link = document.getElementById("contact-email-link");
+  if (link && email) {
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+  }
+}
+
 function copyContactEmail() {
-  const email = "hardexmarley340@gmail.com";
+  const email = getObfuscatedEmail();
   const feedback = document.getElementById("copy-feedback");
+
+  if (!email) return;
 
   if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(email).then(() => {
       if (feedback) {
-        feedback.textContent = `Copied ${email} to clipboard!`;
+        feedback.textContent = `Copied to clipboard!`;
         setTimeout(() => { feedback.textContent = ""; }, 2500);
       }
     }).catch(() => {
@@ -398,6 +420,14 @@ function copyContactEmail() {
     prompt("Copy email address:", email);
   }
 }
+
+// Reveal email securely after page interaction
+document.addEventListener("DOMContentLoaded", () => {
+  initTerminal();
+  renderProjects("all");
+  setupFilters();
+  revealContactEmail();
+});
 
 /* ==========================================================================
    Mobile Nav Toggle
