@@ -7,21 +7,21 @@
 const PROJECTS = [
   {
     id: "fallline",
-    title: "FallLine (v3.0.0)",
+    title: "FallLine (v3.5.0)",
     category: "cyber",
     badge: "Flagship Engine",
     badgeCls: "tag-cyan",
-    shortDesc: "Defensive attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise using NetworkX and verifies fixes by re-scanning.",
-    tags: ["Python 3.11+", "FastAPI", "NetworkX", "MITRE ATT&CK", "CISA KEV", "SARIF 2.1.0"],
+    shortDesc: "Multi-vector attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise, audits domain email spoofability, ingests Active Directory paths, and auto-generates Ansible & Terraform remediations.",
+    tags: ["Python 3.11+", "FastAPI", "NetworkX", "BloodHound AD", "Ansible & Terraform", "MITRE ATT&CK", "SARIF 2.1.0"],
     githubUrl: "https://github.com/hardex001-tech/FallLine",
     caseStudy: {
-      problem: "Traditional scanners dump 500+ alerts without showing which ones actually connect to breach sensitive data, leading to severe alert fatigue.",
-      solution: "Engineered a graph-theoretic attack simulator that models systems as a domino chain, identifies single choke-point fixes that break the entire chain, and actively re-probes individual ports to confirm remediations.",
+      problem: "Traditional vulnerability scanners dump 500+ alerts without showing which ones connect into a critical breach, while IT teams lack the bandwidth to write remediation scripts manually.",
+      solution: "Engineered a multi-vector attack simulator that correlates network exposure, email spoofing (SPF/DMARC), and Active Directory escalation paths into a unified graph—pinpointing the single choke point and auto-generating Ansible and Terraform code to fix it.",
       highlights: [
+        "Multi-vector ingestion: Audits network exposure, live SPF/DMARC domain spoofing, and BloodHound Active Directory JSON paths.",
+        "Automated IaC Remediation: Auto-generates production-ready Ansible playbooks and Terraform policies to fix choke points instantly.",
         "Tested live against Metasploitable 3: proved port 21/ftp remediation live over the network.",
-        "Integrates real-time CISA KEV and FIRST EPSS threat intelligence caches.",
-        "Strict safety boundaries: signed scope allowlists and cryptographic public IP ownership checks.",
-        "69 automated unit and integration tests passing cleanly."
+        "82 automated unit and integration tests passing cleanly."
       ]
     }
   },
