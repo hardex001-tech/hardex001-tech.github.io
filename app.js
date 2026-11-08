@@ -338,7 +338,9 @@ GitHub: https://github.com/hardex001-tech`,
   - Offensive & Recon: Nmap (-sV), Naabu, HTTPX, Nuclei, Burp Suite, Metasploit
   - Defensive Engineering: Python (FastAPI, NetworkX, AsyncIO), Linux UFW, systemd
   - Threat Intel & Standards: MITRE ATT&CK v14, CISA KEV, FIRST EPSS, OWASP Top 10
-  - Cloud Security: AWS Security Groups, S3 Block Public Access, IAM Root MFA`
+  - Cloud Security: AWS Security Groups, S3 Block Public Access, IAM Root MFA`,
+
+  contact: `Email: hardexmarley340@gmail.com\nGitHub: https://github.com/hardex001-tech`
 };
 
 function initTerminal() {
@@ -380,7 +382,7 @@ function initTerminal() {
    ========================================================================== */
 
 function copyContactEmail() {
-  const email = "hardex.security@gmail.com";
+  const email = "hardexmarley340@gmail.com";
   const feedback = document.getElementById("copy-feedback");
 
   if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
