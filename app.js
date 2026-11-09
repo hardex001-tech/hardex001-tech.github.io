@@ -1,7 +1,7 @@
 "use strict";
 
 /* ==========================================================================
-   Project Catalog Data (All 9 Discovered Projects)
+   Project Catalog Data (All 9 Discovered Projects with Verified Credibility)
    ========================================================================== */
 
 const PROJECTS = [
@@ -11,18 +11,22 @@ const PROJECTS = [
     category: "cyber",
     badge: "Flagship Engine",
     badgeCls: "tag-cyan",
-    shortDesc: "Multi-vector attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise, audits domain email spoofability, ingests Active Directory paths, and auto-generates Ansible & Terraform remediations.",
+    statusBadge: "Verified & Tested",
+    statusCls: "tag-success",
+    shortDesc: "Multi-vector attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise (TTC), audits domain email spoofability, ingests Active Directory paths, and auto-generates Ansible & Terraform remediations.",
     tags: ["Python 3.11+", "FastAPI", "NetworkX", "BloodHound AD", "Ansible & Terraform", "MITRE ATT&CK", "SARIF 2.1.0"],
     githubUrl: "https://github.com/hardex001-tech/FallLine",
     caseStudy: {
-      problem: "Traditional vulnerability scanners dump 500+ alerts without showing which ones connect into a critical breach, while IT teams lack the bandwidth to write remediation scripts manually.",
-      solution: "Engineered a multi-vector attack simulator that correlates network exposure, email spoofing (SPF/DMARC), and Active Directory escalation paths into a unified graph—pinpointing the single choke point and auto-generating Ansible and Terraform code to fix it.",
+      problem: "Traditional vulnerability scanners dump hundreds of disconnected alerts without showing how an external attacker connects them into a critical breach, while SecOps teams spend hours writing manual remediation scripts.",
+      solution: "Engineered a graph-theoretic attack simulator that correlates network exposure, email spoofing (SPF/DMARC), and Active Directory escalation paths into a unified Dijkstra graph—pinpointing the exact choke point and auto-generating Ansible and Terraform code to neutralize it.",
       highlights: [
-        "Multi-vector ingestion: Audits network exposure, live SPF/DMARC domain spoofing, and BloodHound Active Directory JSON paths.",
-        "Automated IaC Remediation: Auto-generates production-ready Ansible playbooks and Terraform policies to fix choke points instantly.",
-        "Tested live against Metasploitable 3: proved port 21/ftp remediation live over the network.",
-        "82 automated unit and integration tests passing cleanly."
-      ]
+        "Graph-Theoretic Attack Modeling: NetworkX Dijkstra implementation calculating realistic Time-to-Compromise (TTC).",
+        "Multi-Vector Ingestion: Audits network exposure, live RFC 7208/7489 SPF/DMARC domain records, and BloodHound AD escalation paths.",
+        "Automated IaC Remediation: Generates production-ready Ansible playbooks and Terraform policies for identified choke points.",
+        "Zero-Trust Socket Re-Probe: Re-verifies remediations over the wire (TCP SYN/RST check) rather than trusting ticket status.",
+        "85 automated unit and integration tests passing cleanly under pytest in CI."
+      ],
+      limitations: "Active Directory ingestion currently operates on exported BloodHound JSON files rather than live LDAP stream queries."
     }
   },
   {
@@ -31,17 +35,20 @@ const PROJECTS = [
     category: "cyber",
     badge: "Protocol Reverse Proxy",
     badgeCls: "tag-success",
+    statusBadge: "Lab Prototype",
+    statusCls: "tag-amber",
     shortDesc: "Protocol-level reverse proxy and attack simulation lab neutralizing HTTP Range image amplification and aggressive TCP connection exhaustion on the wire.",
     tags: ["Python", "Socket Programming", "TCP/IP", "SSRF Defense", "Reverse Proxy"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/S3-Shield-Protocol-Defense-Lab",
     caseStudy: {
-      problem: "Sophisticated botnets exploit HTTP byte-range amplification and TCP socket exhaustion against microservices without triggering simple layer-7 rate limits.",
-      solution: "Constructed an active protocol defense proxy that inspects TCP packet boundaries, normalizes malicious HTTP headers, and prevents SSRF pivot attempts against cloud metadata endpoints.",
+      problem: "Automated adversaries exploit HTTP byte-range amplification and TCP socket exhaustion against microservices without triggering simple layer-7 rate limits, while SSRF attempts probe cloud metadata services.",
+      solution: "Constructed an inline protocol defense proxy that inspects TCP packet boundaries, normalizes malicious HTTP headers, and prevents SSRF pivot attempts against cloud metadata endpoints (169.254.169.254).",
       highlights: [
-        "Includes safe attack reproducer script benchmarked against unprotected targets.",
-        "Tested against AWS S3 Block Public Access policies and metadata reflection bypasses.",
-        "Measured wire-level mitigation proof under high concurrent connection loads."
-      ]
+        "Engineered safe attack reproducer script benchmarked against unprotected socket targets.",
+        "Configured mitigation rules for AWS S3 Block Public Access policies and metadata reflection bypasses.",
+        "Measured wire-level mitigation proof under simulated high concurrent connection loads."
+      ],
+      limitations: "Benchmarked primarily in local containerized environments; enterprise multi-region TLS offloading is pending."
     }
   },
   {
@@ -50,17 +57,20 @@ const PROJECTS = [
     category: "cyber",
     badge: "Active Deception",
     badgeCls: "tag-amber",
+    statusBadge: "Lab Prototype",
+    statusCls: "tag-amber",
     shortDesc: "Active deception trap dynamically serving poisoned AWS honeytokens and robots.txt lures to automated botnet scanners probing for .env and backup files.",
     tags: ["Active Defense", "Honeytokens", "Python", "Threat Deception", "C2 Attribution"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/Canary-Poison-Deception-Trap",
     caseStudy: {
-      problem: "Malicious crawlers continuously sweep web servers for leaked configuration files (.env, .git, backup.sql) hiding behind proxy networks.",
-      solution: "Engineered an active honeytoken deception trap that generates poisoned API keys when probed. When the adversary uses the token, their true originating IP and C2 infrastructure are exposed.",
+      problem: "Malicious crawlers continuously sweep web servers for leaked configuration files (.env, .git, backup.sql) hiding behind proxy networks, making attribution difficult.",
+      solution: "Engineered an active honeytoken deception trap that generates poisoned API keys when probed. When the adversary attempts to use the token, webhook alerts trigger and unmask their infrastructure.",
       highlights: [
-        "Generates dynamic, realistic fake environment variables and AWS credentials.",
-        "Webhook alerting fires the second a honeytoken is attempted in the wild.",
-        "Zero performance overhead on legitimate production web traffic."
-      ]
+        "Dynamically generates realistic honeytoken credentials on forbidden path requests.",
+        "Instant webhook alerting fires the second a honeytoken is exercised in the wild.",
+        "Zero performance overhead on legitimate web application routing."
+      ],
+      limitations: "Attribution relies on public cloud provider audit logs (AWS CloudTrail) to capture the unmasked IP."
     }
   },
   {
@@ -69,17 +79,20 @@ const PROJECTS = [
     category: "cyber",
     badge: "Recon & Exposure",
     badgeCls: "tag-cyan",
+    statusBadge: "Recon Tooling",
+    statusCls: "tag-cyan",
     shortDesc: "Automated network reconnaissance and perimeter monitoring engine scanning open services, banners, and certificate metadata.",
     tags: ["Python", "Nmap Automation", "Port Scanning", "Network Security", "Perimeter Recon"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/netguard-scanner",
     caseStudy: {
       problem: "Cloud assets and on-premise perimeter servers often drift out of compliance, exposing unmanaged services to public scanning.",
       solution: "Built a scheduled asset discovery crawler that profiles listening TCP/UDP services, verifies banner authenticity, and flags anomalous exposures.",
       highlights: [
-        "Multi-threaded socket and Nmap scan pipelines for subnet sweeps.",
-        "Audits SSL/TLS certificates and weak cipher suites.",
-        "Emits clean structured JSON and CSV reports for security teams."
-      ]
+        "Multi-threaded socket and Nmap scan pipelines for rapid subnet sweeps.",
+        "Audits SSL/TLS certificates and identifies weak cipher configurations.",
+        "Emits clean structured JSON and CSV reports for security analysis."
+      ],
+      limitations: "Optimized for scheduled perimeter auditing rather than continuous SYN packet flooding."
     }
   },
   {
@@ -88,17 +101,20 @@ const PROJECTS = [
     category: "ai",
     badge: "AI & LLM Security",
     badgeCls: "tag-success",
+    statusBadge: "Research Prototype",
+    statusCls: "tag-amber",
     shortDesc: "Defensive AI firewall and LLM auditor protecting inference endpoints (Ollama, vLLM) against prompt injection and API credential leakage.",
     tags: ["AI Security", "LLM Defense", "Prompt Injection", "Ollama", "Python", "FastAPI"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: null,
     caseStudy: {
-      problem: "Enterprises deploying generative AI frequently leave internal inference endpoints open without authentication or guardrails against jailbreaks.",
+      problem: "Organizations deploying generative AI frequently leave internal inference endpoints open without authentication or guardrails against jailbreaks and prompt injection.",
       solution: "Engineered an inline inspection proxy that sanitizes prompts before reaching the model, detects delimiter manipulation, and blocks systemic extraction attacks.",
       highlights: [
-        "Scans for unauthenticated Ollama (port 11434) and vLLM (port 8000) exposures.",
+        "Audits for unauthenticated Ollama (port 11434) and vLLM (port 8000) exposures.",
         "Detects indirect prompt injection payloads hidden inside retrieved context.",
-        "Benchmarked against standard LLM red-teaming adversarial sets."
-      ]
+        "Maps defenses directly to the OWASP Top 10 for Large Language Models."
+      ],
+      limitations: "Rule-based delimiter isolation evaluated against local models; high-concurrency token streaming requires additional tuning."
     }
   },
   {
@@ -107,17 +123,20 @@ const PROJECTS = [
     category: "ai",
     badge: "Threat Intelligence",
     badgeCls: "tag-cyan",
+    statusBadge: "Research Pipeline",
+    statusCls: "tag-cyan",
     shortDesc: "Autonomous threat intelligence aggregation and correlation engine monitoring emerging CVEs, AlienVault OTX pulses, and active zero-days.",
     tags: ["Threat Intel", "OTX API", "CVE Feeds", "Kill-Chain Analysis", "Python"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: null,
     caseStudy: {
       problem: "Security analysts drown in thousands of raw threat indicators (IOCs) without knowing which ones correlate to their specific infrastructure.",
       solution: "Created an automated intel pipeline that ingests live OTX pulses and CISA advisories, deduplicating hashes and mapping them to MITRE ATT&CK techniques.",
       highlights: [
         "Automated SHA-256 and IP threat pulse correlation.",
         "Generates actionable defensive blocklists for firewalls and proxies.",
-        "Historical database of weaponized exploitation trends."
-      ]
+        "Maintains historical database of weaponized exploitation trends."
+      ],
+      limitations: "Ingestion is currently batch-scheduled rather than utilizing a commercial real-time STIX/TAXII feed."
     }
   },
   {
@@ -126,17 +145,20 @@ const PROJECTS = [
     category: "saas",
     badge: "Automation Platform",
     badgeCls: "tag-amber",
+    statusBadge: "Workflow Automation",
+    statusCls: "tag-cyan",
     shortDesc: "Autonomous high-intent lead generation and web intelligence engine with domain profiling, scoring algorithms, and CRM synchronization.",
     tags: ["Python", "FastAPI", "Web Crawling", "Enrichment", "CRM Automation"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/lead-pulse",
     caseStudy: {
       problem: "Manual B2B prospecting across global markets is slow, inaccurate, and lacks verified domain intent signals.",
       solution: "Built an autonomous crawling and scoring engine that searches across target regions, validates tech stacks, and formats outbound pipelines.",
       highlights: [
         "Concurrent asynchronous HTTP crawlers with rate-limit evasion.",
         "Scoring model ranking leads by hiring signals and technology adoption.",
-        "Seamless integration with Notion CRM and webhook pipelines."
-      ]
+        "Integration with Notion CRM and webhook pipelines."
+      ],
+      limitations: "Subject to public search engine rate-limiting and anti-bot challenges."
     }
   },
   {
@@ -145,9 +167,11 @@ const PROJECTS = [
     category: "saas",
     badge: "Productivity Platform",
     badgeCls: "tag-cyan",
+    statusBadge: "Internal Tool",
+    statusCls: "tag-cyan",
     shortDesc: "Full-stack career pipeline and application intelligence platform tracking technical interviews, follow-ups, and recruiter metrics.",
     tags: ["Python", "FastAPI", "SQLite", "Analytics", "Workflow"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/chronos",
     caseStudy: {
       problem: "Managing dozens of enterprise technical applications across platforms leads to missed follow-ups and unmeasured conversion rates.",
       solution: "Engineered a centralized dashboard with stage-based funnel analytics, automated status reminders, and response time metrics.",
@@ -155,7 +179,8 @@ const PROJECTS = [
         "Relational SQLite storage with audit trail logging.",
         "REST API supporting external automation webhooks.",
         "Responsive, dark-mode dashboard with timeline visualizations."
-      ]
+      ],
+      limitations: "Single-tenant architecture designed for individual engineering candidate tracking."
     }
   },
   {
@@ -164,9 +189,11 @@ const PROJECTS = [
     category: "saas",
     badge: "Enterprise Platform",
     badgeCls: "tag-success",
+    statusBadge: "Operational Infrastructure",
+    statusCls: "tag-cyan",
     shortDesc: "Enterprise agency operations platform managing client service lifecycles, automated deployment environments, and client deliverables.",
     tags: ["Full-Stack", "Docker", "DevOps", "API Gateway", "Python"],
-    githubUrl: "https://github.com/hardex001-tech",
+    githubUrl: "https://github.com/hardex001-tech/adxgroup",
     caseStudy: {
       problem: "Fragmented digital agency operations result in delayed technical deliverables and unmonitored client environments.",
       solution: "Constructed a unified delivery and client portal that automates staging deployments and client milestone verification.",
@@ -174,7 +201,8 @@ const PROJECTS = [
         "Containerized multi-service deployment architecture.",
         "Integrated monitoring hooks for uptime and error budgets.",
         "Role-based access control (RBAC) across client projects."
-      ]
+      ],
+      limitations: "Built specifically around internal agency service delivery workflows."
     }
   }
 ];
@@ -195,11 +223,19 @@ function renderProjects(filter = "all") {
     card.className = "project-card";
 
     const tagBadges = p.tags.map((t) => `<span class="tag">${t}</span>`).join("");
+    const statusTag = p.statusBadge
+      ? `<span class="tag ${p.statusCls || ""}">${p.statusBadge}</span>`
+      : "";
+
+    const repoLink = p.githubUrl
+      ? `<a href="${p.githubUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-ghost">GitHub &rarr;</a>`
+      : `<button class="btn btn-sm btn-ghost" onclick="openCaseStudy('${p.id}')">Lab Specs &rarr;</button>`;
 
     card.innerHTML = `
       <div class="project-top">
         <div class="project-category">
           <span class="tag ${p.badgeCls || ""}">${p.badge}</span>
+          ${statusTag}
         </div>
         <h3 class="project-title">${p.title}</h3>
         <p class="project-desc">${p.shortDesc}</p>
@@ -207,7 +243,7 @@ function renderProjects(filter = "all") {
       </div>
       <div class="project-bottom">
         <button class="btn btn-sm btn-secondary" onclick="openCaseStudy('${p.id}')">Case Study</button>
-        <a href="${p.githubUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-ghost">GitHub &rarr;</a>
+        ${repoLink}
       </div>
     `;
     container.appendChild(card);
@@ -226,7 +262,7 @@ function initFilters() {
 }
 
 /* ==========================================================================
-   Case Study Modal
+   Case Study Modal (With Focus & Keyboard Trap Support)
    ========================================================================== */
 
 function openCaseStudy(id) {
@@ -240,10 +276,18 @@ function openCaseStudy(id) {
   title.textContent = proj.title + " — Technical Case Study";
 
   const highlightsHtml = proj.caseStudy.highlights.map((h) => `<li>${h}</li>`).join("");
+  const limitationsHtml = proj.caseStudy.limitations
+    ? `<h4>Verified Limitations</h4><p class="text-muted" style="font-size:0.875rem;">${proj.caseStudy.limitations}</p>`
+    : "";
+
+  const repoAction = proj.githubUrl
+    ? `<a href="${proj.githubUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">View GitHub Repository</a>`
+    : `<span class="tag tag-amber" style="align-self: center;">Lab Prototype (Source in Private Lab)</span>`;
 
   body.innerHTML = `
-    <div style="margin-bottom: 1rem;">
+    <div style="margin-bottom: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
       <span class="tag ${proj.badgeCls || ""}">${proj.badge}</span>
+      ${proj.statusBadge ? `<span class="tag ${proj.statusCls || ""}">${proj.statusBadge}</span>` : ""}
     </div>
     <h4>The Problem</h4>
     <p>${proj.caseStudy.problem}</p>
@@ -251,131 +295,56 @@ function openCaseStudy(id) {
     <p>${proj.caseStudy.solution}</p>
     <h4>Key Technical Highlights</h4>
     <ul>${highlightsHtml}</ul>
-    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
-      <a href="${proj.githubUrl}" target="_blank" rel="noopener" class="btn btn-sm btn-primary">View GitHub Repository</a>
+    ${limitationsHtml}
+    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      ${repoAction}
       <button class="btn btn-sm btn-secondary" onclick="closeModal()">Close</button>
     </div>
   `;
 
   overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal(event) {
   if (event && event.target !== event.currentTarget) return;
   const overlay = document.getElementById("modal-overlay");
-  if (overlay) overlay.classList.remove("active");
+  if (overlay) {
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+  }
 }
+
+// Close modal on Escape key press
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeModal();
+  }
+});
 
 /* ==========================================================================
-   Interactive Terminal Emulator
+   Architecture & Verification Workbench Tabs
    ========================================================================== */
 
-const BANNER_ASCII = `
-        / \\          ______     _ _ _     _             
-       /   \\        |  ____|__ _| | | |   (_)_ __   ___  
-      / / \\ \\       | |_  / _` + "`" + `| | | |   | | '_ \\ / _ \\ 
-     / /   \\ \\      |  _|(_| | | | |___| | | | |  __/ 
-    / /  ▲  \\ \\     |_|   \\__,_|_|_|_____|_|_| |_|\\___| 
-   /_/__/ \\__\\_\\    Defensive Attack-Path Verification Engine [v3.0.0]
-      \\__▲__/       Hardexploit Lab Edition · MITRE v14 · CISA KEV / EPSS
-`;
+function switchWorkbenchTab(tabId) {
+  const buttons = document.querySelectorAll(".workbench-tab-btn");
+  const panes = document.querySelectorAll(".workbench-pane");
 
-const TERMINAL_COMMANDS = {
-  help: `Available commands:
-  fallline        - Display FallLine v3 live architecture & audit recap
-  s3-shield       - Inspect S3-Shield protocol defense & SSRF lab
-  canary          - View Canary-Poison deception trap details
-  armorllm        - View ArmorLLM AI firewall specs
-  projects        - List all 9 engineered systems
-  whoami          - Hardexploit background and focus
-  skills          - Technical competency summary
-  clear           - Clear terminal output`,
+  buttons.forEach((btn) => {
+    const isTarget = btn.getAttribute("data-tab") === tabId;
+    btn.classList.toggle("active", isTarget);
+    btn.setAttribute("aria-selected", isTarget ? "true" : "false");
+  });
 
-  fallline: `${BANNER_ASCII}
-[*] Engine: Dijkstra Graph-Theoretic Shortest Path
-[*] Target Audited: 192.168.56.103 (Metasploitable 3)
-[+] Findings Discovered: 9 (FTP, SSH, MySQL, Samba, Tomcat)
-[+] Choke Point: Port 3306 Database exposure pushed TTC to ~495 min
-[+] Verification: Port 21/ftp closed & confirmed via targeted socket re-probe
-[+] Status: VERIFIED FIXED (0% packet loss, TCP RST acknowledged)
-[+] Codebase: 69 passing unit tests · MIT License · https://github.com/hardex001-tech/FallLine`,
-
-  "s3-shield": `[+] S3-Shield: Active Protocol-Level Reverse Proxy & Attack Lab
-[*] Mitigations: HTTP Range image amplification, TCP connection exhaustion
-[*] SSRF Defense: Blocks cloud metadata (169.254.169.254) reflection & bypasses
-[*] Benchmark: Measured 98.4% reduction in thread pool exhaustion on the wire.`,
-
-  canary: `[+] Canary-Poison: Active Deception & Honeytoken Trap
-[*] Trap Strategy: Serves dynamic poisoned .env and backup.sql credentials
-[*] Attribution: Unmasks real attacker C2 IP when honeytoken is exercised
-[*] Alerts: Real-time Discord/Slack webhook firing on token access.`,
-
-  armorllm: `[+] ArmorLLM: Defensive AI Firewall & LLM Security Auditor
-[*] Scanning: Discovers unauthenticated Ollama (11434) & vLLM (8000) instances
-[*] Guardrails: Delimiter isolation, indirect prompt-injection sanitization
-[*] Standards: OWASP Top 10 for Large Language Model Applications.`,
-
-  projects: `Engineered Project Inventory (9 Total):
-  1. FallLine (v3.0.0)      - Attack-Path Analysis & Socket Fix Verification (Flagship)
-  2. S3-Shield              - Protocol Defense Reverse Proxy & SSRF Lab
-  3. Canary-Poison          - Active Deception Trap for Botnet Scanners
-  4. NetGuard Scanner       - Perimeter Recon & Exposure Monitoring
-  5. ArmorLLM               - AI Firewall & LLM Prompt-Injection Auditor
-  6. Sentinel-X             - Threat Intelligence & Kill-Chain Correlator
-  7. Lead-Pulse (Lead+)     - High-Intent Web Crawling & Intelligence Engine
-  8. Chronos Tracker        - Career Pipeline & Analytics Tracker
-  9. AdEx Group Platform    - Enterprise Digital Infrastructure
-  
-Type the project name (e.g., 'fallline', 's3-shield') for detailed specifications.`,
-
-  whoami: `Hardexploit (hardex001-tech)
-Role: Defensive Cybersecurity Engineer & Active Defense Systems Builder
-Focus: Attack-Path Graph Modeling, Protocol-Level Security, Vulnerability Verification
-Environment: Kali Linux, VirtualBox Host-Only Labs, AWS Cloud Sandbox
-GitHub: https://github.com/hardex001-tech`,
-
-  skills: `Core Technical Matrix:
-  - Offensive & Recon: Nmap (-sV), Naabu, HTTPX, Nuclei, Burp Suite, Metasploit
-  - Defensive Engineering: Python (FastAPI, NetworkX, AsyncIO), Linux UFW, systemd
-  - Threat Intel & Standards: MITRE ATT&CK v14, CISA KEV, FIRST EPSS, OWASP Top 10
-  - Cloud Security: AWS Security Groups, S3 Block Public Access, IAM Root MFA`,
-
-  contact: `Email: hardexmarley340@gmail.com\nGitHub: https://github.com/hardex001-tech`
-};
-
-function initTerminal() {
-  const output = document.getElementById("terminal-output");
-  const input = document.getElementById("terminal-input");
-  if (!output || !input) return;
-
-  output.textContent = `${BANNER_ASCII}\nType 'help' to view available defense commands.\n`;
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const raw = input.value.trim();
-      const cmd = raw.toLowerCase();
-      input.value = "";
-
-      if (!cmd) return;
-
-      if (cmd === "clear") {
-        output.textContent = "";
-        return;
-      }
-
-      output.textContent += `\nkali@Hardexploit:~$ ${raw}\n`;
-
-      if (TERMINAL_COMMANDS[cmd]) {
-        output.textContent += `${TERMINAL_COMMANDS[cmd]}\n`;
-      } else {
-        output.textContent += `zsh: command not found: ${raw}. Type 'help' for available commands.\n`;
-      }
-
-      const body = document.getElementById("terminal-body");
-      if (body) body.scrollTop = body.scrollHeight;
-    }
+  panes.forEach((pane) => {
+    pane.classList.toggle("active", pane.id === tabId);
   });
 }
+
+// Make switchWorkbenchTab available globally
+window.switchWorkbenchTab = switchWorkbenchTab;
+window.openCaseStudy = openCaseStudy;
+window.closeModal = closeModal;
 
 /* ==========================================================================
    Email Copy & Anti-Scraping Protection Utility
@@ -421,44 +390,46 @@ function copyContactEmail() {
   }
 }
 
-// Reveal email securely after page interaction
-document.addEventListener("DOMContentLoaded", () => {
-  initTerminal();
-  renderProjects("all");
-  setupFilters();
-  revealContactEmail();
-});
+window.copyContactEmail = copyContactEmail;
 
 /* ==========================================================================
-   Mobile Nav Toggle
+   Mobile Nav Toggle (With Click-Outside and Auto-Close on Navigation)
    ========================================================================== */
 
 function initNavToggle() {
   const toggle = document.getElementById("nav-toggle");
-  const links = document.querySelector(".nav-links");
+  const links = document.getElementById("nav-links");
   if (!toggle || !links) return;
 
   toggle.addEventListener("click", () => {
-    const isVisible = links.style.display === "flex";
-    links.style.display = isVisible ? "none" : "flex";
-    links.style.flexDirection = "column";
-    links.style.position = "absolute";
-    links.style.top = "64px";
-    links.style.left = "0";
-    links.style.right = "0";
-    links.style.background = "#0d1117";
-    links.style.padding = "1.5rem";
-    links.style.borderBottom = "1px solid #222c3d";
+    const isActive = links.classList.toggle("active");
+    toggle.setAttribute("aria-expanded", isActive ? "true" : "false");
+  });
+
+  // Auto-close menu when a link inside is clicked
+  links.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      links.classList.remove("active");
+      toggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!toggle.contains(e.target) && !links.contains(e.target)) {
+      links.classList.remove("active");
+      toggle.setAttribute("aria-expanded", "false");
+    }
   });
 }
 
 /* ==========================================================================
-   Initialization
+   Single Consolidated Initialization
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
   renderProjects("all");
   initFilters();
-  initTerminal();
   initNavToggle();
+  revealContactEmail();
 });

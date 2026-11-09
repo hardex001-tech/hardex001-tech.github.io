@@ -12,7 +12,7 @@
 
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
-  --text-subtle: #64748b;
+  --text-subtle: #7f8ea3;
 
   --accent-cyan: #38bdf8;
   --accent-cyan-subtle: rgba(56, 189, 248, 0.12);
@@ -34,6 +34,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 2px;
 }
 
 html {
@@ -574,14 +579,14 @@ a:hover {
 }
 
 /* ==========================================================================
-   Terminal Window
+   Interactive Architecture & Verification Workbench
    ========================================================================== */
 
-.terminal-section {
+.workbench-section {
   background: #07090c;
 }
 
-.terminal-window {
+.workbench-window {
   background: #0d1117;
   border: 1px solid #30363d;
   border-radius: var(--radius-md);
@@ -590,16 +595,18 @@ a:hover {
   font-family: var(--font-mono);
 }
 
-.terminal-bar {
+.workbench-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 1rem;
   background: #161b22;
   border-bottom: 1px solid #30363d;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.terminal-dots {
+.workbench-dots {
   display: flex;
   gap: 6px;
 }
@@ -614,50 +621,103 @@ a:hover {
 .dot-yellow { background: #d29922; }
 .dot-green { background: #3fb950; }
 
-.terminal-title {
-  font-size: 0.8rem;
+.workbench-title {
+  font-size: 0.825rem;
   color: #8b949e;
 }
 
-.terminal-status {
-  font-size: 0.7rem;
+.workbench-status {
+  font-size: 0.75rem;
   color: #3fb950;
   font-weight: 700;
   letter-spacing: 0.05em;
+  background: rgba(63, 185, 80, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(63, 185, 80, 0.25);
 }
 
-.terminal-body {
-  padding: 1.25rem;
-  min-height: 340px;
-  max-height: 480px;
-  overflow-y: auto;
-  font-size: 0.875rem;
-  color: #e6edf3;
-  line-height: 1.6;
+.workbench-tabs {
+  display: flex;
+  background: #10151e;
+  border-bottom: 1px solid #222c3d;
+  overflow-x: auto;
 }
 
-.terminal-output {
-  white-space: pre-wrap;
-  margin-bottom: 0.75rem;
-}
-
-.terminal-input-row {
+.workbench-tab-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid #222c3d;
+  border-bottom: 2px solid transparent;
+  color: #8b949e;
+  font-family: var(--font-mono);
+  font-size: 0.825rem;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
-.terminal-prompt {
-  color: #58a6ff;
-  font-weight: 600;
+.workbench-tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.terminal-input {
-  flex: 1;
-  background: transparent;
-  border: none;
+.workbench-tab-btn.active {
+  color: var(--accent-cyan);
+  background: #0d1117;
+  border-bottom-color: var(--accent-cyan);
+}
+
+.workbench-pane {
+  display: none;
+  padding: 1.5rem;
+  min-height: 380px;
+  max-height: 520px;
+  overflow-y: auto;
+  font-size: 0.85rem;
   color: #e6edf3;
+  line-height: 1.65;
+}
+
+.workbench-pane.active {
+  display: block;
+}
+
+.workbench-pre {
+  background: transparent;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
   font-family: var(--font-mono);
+  color: #cbd5e1;
+}
+
+.workbench-meta {
+  display: flex;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #222c3d;
+  font-size: 0.775rem;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.workbench-meta span strong {
+  color: var(--accent-cyan);
+}
+
+.token-comment { color: #64748b; }
+.token-keyword { color: #f472b6; }
+.token-string  { color: #34d399; }
+.token-number  { color: #fbbf24; }
+.token-prompt  { color: #38bdf8; font-weight: 600; }
+.token-success { color: #4ade80; font-weight: 600; }
+.token-warning { color: #fb923c; }
   font-size: 0.875rem;
   outline: none;
 }
@@ -860,7 +920,22 @@ a:hover {
 }
 
 @media (max-width: 680px) {
-  .nav-links { display: none; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(13, 17, 23, 0.98);
+    backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    gap: 1.25rem;
+  }
+  .nav-links.active {
+    display: flex;
+  }
   .nav-toggle { display: flex; }
   .hero-title { font-size: 1.85rem; }
   .metrics-grid { grid-template-columns: 1fr; }
