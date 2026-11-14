@@ -2,6 +2,7 @@
 
 /* ==========================================================================
    Project Catalog Data (All 9 Discovered Projects with Verified Credibility)
+   Owner: Abdulrazaq Adeyemi | Brand: AdeXploit
    ========================================================================== */
 
 const PROJECTS = [
@@ -208,6 +209,74 @@ const PROJECTS = [
 ];
 
 /* ==========================================================================
+   Signature Brand Animation: Looping Typewriter for AdeXploit
+   Features custom star-inspired X glyph, blinking cursor, pause & delete
+   Respects prefers-reduced-motion accessibility setting
+   ========================================================================== */
+
+const STAR_X_HTML = `<span class="star-x-glyph-wrap" aria-hidden="true"><svg class="star-x-glyph" viewBox="0 0 24 24" width="0.92em" height="0.92em" fill="none"><path class="x-arms" d="M3.8 3h3.6l4.6 7.2L16.6 3h3.6l-6.4 10 6.6 10.3h-3.6l-4.8-7.5-4.8 7.5H3.6l6.6-10.3L3.8 3z" fill="currentColor"/><path class="x-star" d="M12 6.5l1.4 4.1 4.1 1.4-4.1 1.4L12 17.5l-1.4-4.1-4.1-1.4 4.1-1.4L12 6.5z" fill="#00e5ff"/></svg></span>`;
+
+const BRAND_CHARS = [
+  "A",
+  "d",
+  "e",
+  STAR_X_HTML,
+  "p",
+  "l",
+  "o",
+  "i",
+  "t"
+];
+
+function initBrandTypewriter() {
+  const container = document.getElementById("typewriter-text");
+  if (!container) return;
+
+  // Accessibility check: Respect reduced-motion preferences
+  const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    container.innerHTML = BRAND_CHARS.join("");
+    return;
+  }
+
+  let currentIndex = 0;
+  let isDeleting = false;
+
+  function tick() {
+    if (isDeleting) {
+      currentIndex--;
+      container.innerHTML = BRAND_CHARS.slice(0, currentIndex).join("");
+
+      if (currentIndex <= 0) {
+        isDeleting = false;
+        // Brief pause before typing again
+        setTimeout(tick, 600);
+        return;
+      }
+      // Speed when erasing: brisk and snappy (50ms)
+      setTimeout(tick, 50);
+    } else {
+      currentIndex++;
+      container.innerHTML = BRAND_CHARS.slice(0, currentIndex).join("");
+
+      if (currentIndex >= BRAND_CHARS.length) {
+        isDeleting = true;
+        // Pause after completing the word so viewers can absorb the brand
+        setTimeout(tick, 2400);
+        return;
+      }
+      // Natural typewriter speed with slight organic variance
+      const jitter = Math.floor(Math.random() * 30);
+      const typingSpeed = 115 + jitter;
+      setTimeout(tick, typingSpeed);
+    }
+  }
+
+  // Initial startup delay
+  setTimeout(tick, 450);
+}
+
+/* ==========================================================================
    Project Cards Rendering & Filtering
    ========================================================================== */
 
@@ -341,7 +410,7 @@ function switchWorkbenchTab(tabId) {
   });
 }
 
-// Make switchWorkbenchTab available globally
+// Global exposure for event handlers
 window.switchWorkbenchTab = switchWorkbenchTab;
 window.openCaseStudy = openCaseStudy;
 window.closeModal = closeModal;
@@ -428,6 +497,7 @@ function initNavToggle() {
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+  initBrandTypewriter();
   renderProjects("all");
   initFilters();
   initNavToggle();
