@@ -14,20 +14,20 @@ const PROJECTS = [
     badgeCls: "tag-cyan",
     statusBadge: "Verified & Tested",
     statusCls: "tag-success",
-    shortDesc: "Multi-vector attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise (TTC), audits domain email spoofability, ingests Active Directory paths, and auto-generates Ansible & Terraform remediations.",
-    tags: ["Python 3.11+", "FastAPI", "NetworkX", "BloodHound AD", "Ansible & Terraform", "MITRE ATT&CK", "SARIF 2.1.0"],
+    shortDesc: "Multi-vector attack-path analysis and choke-point verification platform. Models shortest Time-to-Compromise (TTC), audits domain email spoofability, ingests Active Directory paths, and provides Ansible remediation playbook generation alongside experimental Terraform HCL drafting for infrastructure-security review.",
+    tags: ["Python 3.11+", "FastAPI", "Python heapq (Dijkstra)", "BloodHound AD", "Ansible & Terraform (Draft HCL)", "MITRE ATT&CK", "SARIF 2.1.0"],
     githubUrl: "https://github.com/hardex001-tech/FallLine",
     caseStudy: {
       problem: "Traditional vulnerability scanners dump hundreds of disconnected alerts without showing how an external attacker connects them into a critical breach, while SecOps teams spend hours writing manual remediation scripts.",
-      solution: "Engineered a graph-theoretic attack simulator that correlates network exposure, email spoofing (SPF/DMARC), and Active Directory escalation paths into a unified Dijkstra graph—pinpointing the exact choke point and auto-generating Ansible and Terraform code to neutralize it.",
+      solution: "Engineered a graph-theoretic attack simulator that correlates network exposure, email spoofing (SPF/DMARC), and Active Directory escalation paths into a unified Dijkstra graph, pinpointing the exact choke point and generating Ansible remediation playbooks alongside experimental Terraform HCL drafts for SecOps review.",
       highlights: [
-        "Graph-Theoretic Attack Modeling: NetworkX Dijkstra implementation calculating realistic Time-to-Compromise (TTC).",
+        "Graph-Theoretic Attack Modeling: Python heapq Dijkstra shortest-path engine (with optional NetworkX graph support) estimating Time-to-Compromise (TTC).",
         "Multi-Vector Ingestion: Audits network exposure, live RFC 7208/7489 SPF/DMARC domain records, and BloodHound AD escalation paths.",
-        "Automated IaC Remediation: Generates production-ready Ansible playbooks and Terraform policies for identified choke points.",
+        "IaC Remediation & Drafting: Ansible remediation playbook generation, alongside experimental Terraform HCL drafting for infrastructure-security review.",
         "Zero-Trust Socket Re-Probe: Re-verifies remediations over the wire (TCP SYN/RST check) rather than trusting ticket status.",
         "85 automated unit and integration tests passing cleanly under pytest in CI."
       ],
-      limitations: "Active Directory ingestion currently operates on exported BloodHound JSON files rather than live LDAP stream queries."
+      limitations: "Active Directory ingestion currently operates on exported BloodHound JSON files rather than live LDAP stream queries. Experimental Terraform HCL output emits baseline templates (including egress rules) for engineering review and does not currently revoke existing insecure ingress exposure."
     }
   },
   {
@@ -342,7 +342,7 @@ function openCaseStudy(id) {
   const title = document.getElementById("modal-title");
   const body = document.getElementById("modal-body");
 
-  title.textContent = proj.title + " — Technical Case Study";
+  title.textContent = proj.title + ": Technical Case Study";
 
   const highlightsHtml = proj.caseStudy.highlights.map((h) => `<li>${h}</li>`).join("");
   const limitationsHtml = proj.caseStudy.limitations

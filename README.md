@@ -1,4 +1,4 @@
-# AdeXploit — Abdulrazaq Adeyemi Portfolio
+# AdeXploit | Abdulrazaq Adeyemi Portfolio
 
 Official Master Cybersecurity & Systems Engineering Portfolio for **Abdulrazaq Adeyemi (`AdeXploit`)**.
 
@@ -7,7 +7,7 @@ Official Master Cybersecurity & Systems Engineering Portfolio for **Abdulrazaq A
 
 ## Featured Engineering Pillars
 1. **Defensive Cyber Operations & Attack-Path Modeling**
-   - **FallLine (v3.5.0 — Flagship)**: Multi-vector attack-path graph modeling, BloodHound Active Directory ingestion, live SPF/DMARC domain spoof auditing, automated Ansible/Terraform remediation generation, and socket-level re-probe verification (85 passing unit tests).
+   - **FallLine (v3.5.0, Flagship)**: Multi-vector attack-path graph modeling (Python `heapq` Dijkstra with optional NetworkX), BloodHound Active Directory ingestion, live SPF/DMARC domain spoof auditing, Ansible remediation playbook generation alongside experimental Terraform HCL drafting (requires engineering review; does not revoke existing ingress), and socket-level re-probe verification (85 passing unit tests).
    - **S3-Shield**: Active protocol-level reverse proxy and SSRF defense lab.
    - **Canary-Poison**: Active deception trap and honeytoken defense.
    - **NetGuard**: Perimeter reconnaissance and exposure scanning.
