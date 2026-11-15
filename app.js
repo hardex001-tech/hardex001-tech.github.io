@@ -277,6 +277,57 @@ function initBrandTypewriter() {
 }
 
 /* ==========================================================================
+   Security Engineering Principle Typewriter Animation
+   Loops character-by-character typing, 2.5s pause, backspacing, and pause
+   Respects prefers-reduced-motion accessibility setting
+   ========================================================================== */
+
+const PRINCIPLE_TEXT =
+  "Security is built by making assumptions explicit, testing them, and proving what a system actually does.";
+
+function initPrincipleTypewriter() {
+  const container = document.getElementById("principle-typewriter-text");
+  if (!container) return;
+
+  const prefersReducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) {
+    container.textContent = PRINCIPLE_TEXT;
+    return;
+  }
+
+  let currentIndex = 0;
+  let isDeleting = false;
+
+  function tick() {
+    if (isDeleting) {
+      currentIndex--;
+      container.textContent = PRINCIPLE_TEXT.slice(0, currentIndex);
+
+      if (currentIndex <= 0) {
+        isDeleting = false;
+        setTimeout(tick, 550);
+        return;
+      }
+      setTimeout(tick, 22);
+    } else {
+      currentIndex++;
+      container.textContent = PRINCIPLE_TEXT.slice(0, currentIndex);
+
+      if (currentIndex >= PRINCIPLE_TEXT.length) {
+        isDeleting = true;
+        setTimeout(tick, 2500);
+        return;
+      }
+      const jitter = Math.floor(Math.random() * 15);
+      setTimeout(tick, 42 + jitter);
+    }
+  }
+
+  setTimeout(tick, 500);
+}
+
+/* ==========================================================================
    Project Cards Rendering & Filtering
    ========================================================================== */
 
@@ -498,6 +549,7 @@ function initNavToggle() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initBrandTypewriter();
+  initPrincipleTypewriter();
   renderProjects("all");
   initFilters();
   initNavToggle();

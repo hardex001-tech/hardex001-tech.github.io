@@ -597,11 +597,48 @@ a:hover {
   box-shadow: var(--glow-subtle);
 }
 
+.hero-quote-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
 .hero-quote-card p {
   font-size: 0.82rem;
   color: var(--text-main);
   line-height: 1.45;
   margin-bottom: 0.35rem;
+}
+
+.principle-quote-wrap {
+  display: grid;
+}
+
+.principle-sizer {
+  grid-area: 1 / 1;
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.principle-live {
+  grid-area: 1 / 1;
+}
+
+.principle-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  background-color: var(--accent-cyan);
+  margin-left: 2px;
+  vertical-align: -0.1em;
+  animation: blinkCursor 0.9s step-end infinite;
+  box-shadow: 0 0 8px var(--accent-cyan);
+  border-radius: 1px;
 }
 
 .hero-quote-card footer {
@@ -1467,7 +1504,8 @@ a:hover {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .typewriter-cursor {
+  .typewriter-cursor,
+  .principle-cursor {
     animation: none !important;
     opacity: 1 !important;
   }
